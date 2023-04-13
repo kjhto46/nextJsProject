@@ -1,0 +1,8 @@
+body {margin:0; color:white; background:#303030;}
+.title {margin:50px 0 0; text-align:center;}
+.title-sub {text-align:center;}
+
+.food {margin:20px auto; padding:20px; width:200px; color:black; background:white; border-radius:5px;}
+
+.navbar {padding:20px; background:white;}
+.navbar a {margin-right:10px; text-decoration:none;}
