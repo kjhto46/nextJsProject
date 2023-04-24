@@ -1,4 +1,3 @@
-import Image from "next/image"
 export default function List() {
     let 상품 = ['토마토', '파스타', '코코넛']
 
