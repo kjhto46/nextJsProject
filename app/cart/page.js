@@ -1,6 +1,6 @@
 import {age, name} from "./data"
 export default function Cart() {
-    let 장바구니 = ['토마토', '파스타', '코코넛'] //props 문법 1.<자식Component 작명="전할데이터"> //2. 자식은 props.작명 사용 //부모 -> 자식데이터 전송은 props 쓰면됩니다.
+    let 장바구니 = ['토마토', '파스타', '코코넛'] 
     return (
       <div>
         <h4 className="title">Cart</h4>
@@ -12,9 +12,18 @@ export default function Cart() {
         <CartItem item={장바구니[0]} />
         <CartItem item={장바구니[1]} />
         <CartItem item={장바구니[2]} />
+        <Btn color="red" />
+        <Btn color="blue" />
       </div>
     )
 }
+
+//props 문법 1.<자식Component 작명="전할데이터"> //2. 자식은 props.작명 사용 //부모 -> 자식데이터 전송은 props 쓰면됩니다.
+function Btn(props) {
+  return <button style={{backgroundColor: props.color}}>버튼임</button>
+}
+
+
 //component 반복으로 만들기 //component 단점으로는 서로 데이터 공유가 복잡함 재사용이 잦은 html 덩어리를 쓰기 좋음
 //component 만드는 법
 //1. function 작명(){}
