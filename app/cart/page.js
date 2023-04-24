@@ -1,5 +1,6 @@
 import {age, name} from "./data"
 export default function Cart() {
+    let 장바구니 = ['토마토', '파스타', '코코넛'] //props 문법 1.<자식Component 작명="전할데이터"> //2. 자식은 props.작명 사용 //부모 -> 자식데이터 전송은 props 쓰면됩니다.
     return (
       <div>
         <h4 className="title">Cart</h4>
@@ -8,9 +9,9 @@ export default function Cart() {
           <p>$40</p>
           <p>1개</p>
         </div>
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
+        <CartItem item={장바구니[0]} />
+        <CartItem item={장바구니[1]} />
+        <CartItem item={장바구니[2]} />
       </div>
     )
 }
@@ -30,10 +31,10 @@ export default function Cart() {
 //client component는 로딩속도 느림 
 //1 (읽는데 자바스크립트가 많이 필요함) 
 //2. 로딩속도 느림(hydration 필요) hydration html 유저에게 보낸 후에 자바스크립트로 html 다시 읽고 분석하는 일
-function CartItem(){
+function CartItem(props){
   return (
     <div className="cart-item">
-      <p>상품명</p>
+      <p>{props.item}</p>
       <p>$40</p>
       <p>1개</p>
     </div>
