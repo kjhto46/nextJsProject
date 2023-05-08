@@ -8,6 +8,6 @@ export default async function Home() {
   console.log(result)
 
   return (
-    <div>안녕</div>
+    <div>안녕gktpdy</div>
   )
 }
