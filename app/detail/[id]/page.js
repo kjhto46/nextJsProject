@@ -8,6 +8,7 @@ export default async function Detail(props) {
   const db = (await connectDB).db("forum");
   let result = await db.collection("post").findOne({ _id: new ObjectId(props.params.id) });
 
+  // console.log(props)  값이 { params: { id: '어쩌구저쩌구' }, searchParams: {} } 이렇게 나옴 props는 부모 componet 데이터 이외에도 dynamic route에 입력한 값을 출력하는것이다. 저기 id는 아이디라는 dynamic route에 '어쩌구저쩌구'가 됐다~ 이렇게 된것이다.
   return (
     <div>
       <h2>상세페이지</h2>
