@@ -18,6 +18,7 @@ export default function RootLayout({ children }) {
             Appleforum
           </Link>
           <Link href="/list">List</Link>
+          <Link href="/write">글작성</Link>
         </div>
         {children}
       </body>

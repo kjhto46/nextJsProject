@@ -28,14 +28,20 @@ export default function ListItem({ result }) {
 
           <span
             onClick={() => {
-              fetch("/api/test", {method:'DELETE'})
-//  !!!!삭제기능 만들어보기 숙제
-              .then(() => {
-                  console.log(22222)
-               })
+              console.log(result[i]._id);
+              fetch("/api/post/delete", {
+                method: "POST",
+                body: result[i]._id, //'이방법으로 데이터를 보내줄수도 있다'
+              })
+               //  .then((r) => {
+               //    return r.json();
+               //  })
+               //  .then((r) => {
+               //    console.log(r)
+               // }) then().then()으로 respone에 받아온 값을 넘겨 받을 수 있는 개념이다.
             }}
           >
-            🗑️
+            삭제 {result[i]._id}
           </span>
         </div>
       ))}
