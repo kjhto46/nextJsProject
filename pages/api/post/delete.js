@@ -8,6 +8,6 @@ export default async function handler(req, res) {
     let result = db
       .collection("post")
       .deleteOne({ _id: new ObjectId(req.body) });
-    res.redirect(200, "/list");
+    res.redirect(200).JSON('삭제하였습니다.');
   }
 }
