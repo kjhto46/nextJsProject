@@ -4,7 +4,7 @@ import ListItem from "./ListItem";
 // import DetailLink from "./DetailLink";
 // detailLink에 useRouter에 대한 내용 저장함. useRouter은 Link와 다르게 자바스크립트 코드로 페이지를 이동시켜줄 수 있음.
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 20
 
 export default async function List() {
   const db = (await connectDB).db("forum");
