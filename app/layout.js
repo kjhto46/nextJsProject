@@ -14,9 +14,9 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   let session = await getServerSession(authOptions) 
-  if (session) {
-    console.log(session)
-  }
+  // if (session) {
+  //   console.log(session)
+  // }
   //getServerSession() import 해오고 
   // authOptions 가져와서 컴포넌트안에서 사용하면 그 자리에 유저 정보가 남습니다.
   return (
