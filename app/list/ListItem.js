@@ -4,7 +4,7 @@ import Link from "next/link";
 
 // import { useEffect } from "react";
 
-export default function ListItem({ result }) {
+export default function ListItem({ result, session }) {
   // useEffect(() => {
   // // !서버에 부탁해서 DB게시물 부탁해서 가져옴 예를 들어 get요청
   // // result = DB게시물
@@ -24,59 +24,59 @@ export default function ListItem({ result }) {
             <h4>{result[i].title}</h4>
             <p>{result[i].content}</p>
           </Link>
-          <Link href={"/edit/" + result[i]._id}>수정</Link>
+          {session && <Link href={"/edit/" + result[i]._id}>수정</Link>}
 
-          <span
-            onClick={(e) => {
-              console.log(result[i]._id);
-              fetch("/api/post/delete", {
-                method: "POST",
-                body: result[i]._id, //'이방법으로 데이터를 보내줄수도 있다'
-              })
-                .then((r) => {
-                  if (r.status == 200) {
-                    return r.json();
-                  } else {
-                    //서버가 에러코드전송시 실행할코드
-                  }
+          {session && (
+            <span
+              onClick={(e) => {
+                console.log(result[i]._id);
+                fetch("/api/post/delete", {
+                  method: "POST",
+                  body: result[i]._id, //'이방법으로 데이터를 보내줄수도 있다'
                 })
-                .then((result) => {
-                  //성공시 실행할코드
-                  e.target.parentElement.style.opacity = 0;
-                  setTimeout(()=>{
-                     e.target.parentElement.style.display = 'none';
-                  },1000)
-                })
-                .catch((error) => {
-                  //인터넷문제 등으로 실패시 실행할코드
-                  console.log(error);
-                }); // then().then()으로 respone에 받아온 값을 넘겨 받을 수 있는 개념이다.
+                  .then((r) => {
+                    if (r.status == 200) {
+                      return r.json();
+                    } else {
+                      //서버가 에러코드전송시 실행할코드
+                    }
+                  })
+                  .then((result) => {
+                    //성공시 실행할코드
+                    e.target.parentElement.style.opacity = 0;
+                    setTimeout(() => {
+                      e.target.parentElement.style.display = "none";
+                    }, 1000);
+                  })
+                  .catch((error) => {
+                    //인터넷문제 등으로 실패시 실행할코드
+                    console.log(error);
+                  }); // then().then()으로 respone에 받아온 값을 넘겨 받을 수 있는 개념이다.
 
-              // 방법 2. query string 과 URL parameter을 사용해서 할수있다.
-              // !! URL뒤에 ? 데이터이름= 값 입력가능(query string)
-              // !! ex. ('/api/test?name=kim') 이후 /api/test에서 console.log(req.query) 시 {name:'kim'} 이라는 값을 확인 할 수 있음
-              // !!! query string 장점 간단함, get 요청에서 별도의 body: result[i]._id, 이 단계가 필요없이 데이터 전송가능
-              // !!! 단점 데이터가 길고 복잡하면 지저분함. 민감한 정보를 입력하면 보안에 취약함.
-              // !! 방법 3 fetch(`/api/deletelist/${result[i]._id}`)
-              // !! 방법 3   .then((r) => {
-              // !! 방법 3     if (r.status == 200) {
-              // !! 방법 3       e.target.parentElement.style.opacity = 0;
-              // !! 방법 3       setTimeout(() => {
-              // !! 방법 3         e.target.parentElement.style.display = "none";
-              // !! 방법 3       }, 1000);
+                // 방법 2. query string 과 URL parameter을 사용해서 할수있다.
+                // !! URL뒤에 ? 데이터이름= 값 입력가능(query string)
+                // !! ex. ('/api/test?name=kim') 이후 /api/test에서 console.log(req.query) 시 {name:'kim'} 이라는 값을 확인 할 수 있음
+                // !!! query string 장점 간단함, get 요청에서 별도의 body: result[i]._id, 이 단계가 필요없이 데이터 전송가능
+                // !!! 단점 데이터가 길고 복잡하면 지저분함. 민감한 정보를 입력하면 보안에 취약함.
+                // !! 방법 3 fetch(`/api/deletelist/${result[i]._id}`)
+                // !! 방법 3   .then((r) => {
+                // !! 방법 3     if (r.status == 200) {
+                // !! 방법 3       e.target.parentElement.style.opacity = 0;
+                // !! 방법 3       setTimeout(() => {
+                // !! 방법 3         e.target.parentElement.style.display = "none";
+                // !! 방법 3       }, 1000);
 
-              // !! 방법 3       return r.json();
-              // !! 방법 3     } else {
-              // !! 방법 3       // 서버가 에러코드 전송시 실행할 코드
-              // !! 방법 3     }
-              // !! 방법 3   })
-              // !! 방법 3   .catch((error) => {
-              // !! 방법 3     // 인터넷문제 등으로 실패시 실행할 코드
-              // !! 방법 3     console.log(error);
-              // !! 방법 3   });
-            }}>
-            삭제
-          </span>
+                // !! 방법 3       return r.json();
+                // !! 방법 3     } else {
+                // !! 방법 3       // 서버가 에러코드 전송시 실행할 코드
+                // !! 방법 3     }
+                // !! 방법 3   })
+                // !! 방법 3   .catch((error) => {
+                // !! 방법 3     // 인터넷문제 등으로 실패시 실행할 코드
+                // !! 방법 3     console.log(error);
+                // !! 방법 3   });
+              }}>삭제</span>
+          )}
         </div>
       ))}
     </div>
