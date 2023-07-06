@@ -32,6 +32,7 @@ export default function Comment(props) {
           data.map((a, i) => (
             <li key={i}>
               <p>{a.content}</p>
+              <h5>{a.author}</h5>
             </li>
           ))
         ) : (
@@ -41,7 +42,7 @@ export default function Comment(props) {
       <input
         onChange={(e) => {
           setComment(e.target.value);
-        }}
+        }} value={comment} //
       />
       <button
         onClick={() => {
@@ -57,6 +58,7 @@ export default function Comment(props) {
             .then((result) => {
               console.log(result);
               fetchComments(); // 코멘트를 저장한 후에 코멘트 리스트를 다시 가져옵니다.
+              setComment(''); // 올바른 위치로 옮겨진 부분: setComment를 비우면서 input의 value를 비우면서 필드를 비움 
             });
         }}
       >
