@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       }
 
       let db = (await connectDB).db('forum')
-      let result = db.collection('comment').insertOne(dataToSave);
-      req.status(200).json(result)
+      let result = await db.collection('comment').insertOne(dataToSave);
+      res.status(200).json(result)
    }
 }

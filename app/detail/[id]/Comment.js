@@ -4,35 +4,39 @@ import { useEffect, useState } from "react";
 
 export default function Comment(props) {
   let [comment, setComment] = useState(""); // ('') 기본값이 공란이라는 뜻
-  let [data, setData] = useState([])
+  let [data, setData] = useState([]);
 
   // client component 로드시 서버에 데이터 요청하려고 fetch()를 사용할건데
   // 보통 useEffect라는 곳 안에 적어야한다. html이랑은 상관없는 코드를 ajax, 타이머 이런 기능을 넣을때 보통 보관한다.
   // !?! 이상한 특징 1. 으로는 useEffect 안에 적은 코드는 html이 로드/재렌더링 될때마다 실행된다.
   // ^ 위에 글 해결법   useEffect(() => {},[])      //[] 를 추가함으로써 export default function Comment(props) { 이 한번 로드될때 1회만 실행된다.
   // !?! 이상한 특징 2. seEffect 안에 적은 코드는 html 렌더링 후에 실행됩니다 //그래서 위의 예제는 컴포넌트의 html 부터 보여주고 나서 ajax도 실행되는데 나쁜건 아닙니다.
-  useEffect(() => {
+  const fetchComments = () => {
     fetch("/api/comment/list?id=" + props.detail_id)
       .then((r) => r.json())
       .then((result) => {
-         // console.log(result)
-         setData(result)
+        //   console.log(result);
+        setData(result);
       });
+  };
+
+  useEffect(() => {
+    fetchComments();
   }, []);
 
   return (
     <div>
-      <ul>댓글목록보여줄부분
-      {
-      data.length > 0 ?
-         data.map((a,i)=>(
-               <li key={i}>
-                  <p>{a.content}</p>
-               </li>
-               )
-         )
-         : <li>로딩중</li>
-      }
+      <ul>
+        댓글목록보여줄부분
+        {data.length > 0 ? (
+          data.map((a, i) => (
+            <li key={i}>
+              <p>{a.content}</p>
+            </li>
+          ))
+        ) : (
+          <li>로딩중</li>
+        )}
       </ul>
       <input
         onChange={(e) => {
@@ -47,8 +51,13 @@ export default function Comment(props) {
             body: JSON.stringify({
               comment: comment,
               detail_id: props.detail_id,
-            })
-          });
+            }),
+          })
+            .then((r) => r.json())
+            .then((result) => {
+              console.log(result);
+              fetchComments(); // 코멘트를 저장한 후에 코멘트 리스트를 다시 가져옵니다.
+            });
         }}
       >
         댓글전송
