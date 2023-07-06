@@ -6,14 +6,12 @@ import { authOptions } from "../auth/[...nextauth]";
 export default async function handler(req, res) {
   if (req.method == "POST") {
     let session = await getServerSession(req, res, authOptions);
-    console.log(req.body);
 
     const db = (await connectDB).db("forum");
     let idMatch = await db
       .collection("post")
       .findOne({ _id: new ObjectId(req.body) });
 
-    console.log(idMatch);
     if (idMatch.author == session.user.email) {
       let result = await db
         .collection("post")
