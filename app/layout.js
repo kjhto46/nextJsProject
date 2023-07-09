@@ -24,7 +24,7 @@ export default async function RootLayout({ children }) {
       <body>
         <div className="navbar">
           <Link href="/" className="logo">
-            Appleforum
+            kjhto46
           </Link>
           <Link href="/list">List</Link>
           <Link href="/write">글작성</Link>
