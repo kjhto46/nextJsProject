@@ -50,7 +50,12 @@ const Write = () => {
         }),
       })
         .then()
-        .then((window.location.href = "/list"));
+        .then(() => {
+          if (typeof window !== "undefined") {
+            // 작업이 성공적으로 완료되면 클라이언트 사이드에서 '/list' 페이지로 이동 및 새로고침
+            window.location.assign("/list");
+          }
+        });
     } else {
       console.log("실패");
     }
