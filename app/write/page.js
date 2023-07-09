@@ -1,54 +1,87 @@
 "use client";
-
 import { useState } from "react";
+const Write = () => {
+  const [imageURL, setImageURL] = useState("");
+  const [imageFile, setImageFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [src, setSrc] = useState("");
+  const onFileUpload = async (e) => {
+    e.preventDefault();
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+    if (file) {
+      let image = window.URL.createObjectURL(file);
+      setImageURL(image);
+      setImageFile(file);
+    }
+  };
 
-export default function Write() {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const filename = encodeURIComponent(imageFile.name);
+    let res = await fetch("/api/post/image?file=" + filename);
+    res = await res.json();
+    //S3 업로드
+    const formData = new FormData();
+    Object.entries({ ...res.fields, file: imageFile }).forEach(
+      ([key, value]) => {
+        formData.append(key, value);
+      }
+    );
+    let 업로드결과 = await fetch(res.url, {
+      method: "POST",
+      body: formData,
+    });
+    console.log(업로드결과);
+    console.log("res.url,", res.url);
+    console.log("res.fields,", res.fields);
+    console.log("imageFile,", imageFile);
+    setSrc(업로드결과.url + "/" + filename);
+    if (업로드결과.ok) {
+      console.log(업로드결과.url + "/" + filename);
 
-   let [src, setSrc] = useState('')
-
+      fetch("/api/post/new", {
+        method: "POST",
+        body: JSON.stringify({
+          title: title,
+          content: content,
+          img_url: 업로드결과.url + "/" + filename,
+        }),
+      })
+        .then()
+        .then((window.location.href = "/list"));
+    } else {
+      console.log("실패");
+    }
+  };
   return (
-    <div className="p-20">
-      <h4>글작성</h4>
-      <form action="/api/post/new" method="POST">
-        <input name="title" placeholder="글제목" />
-        <input name="content" placeholder="글내용" />
+    <div className="form-container">
+      <h4 className="title">글작성페이지</h4>
+      <form className="post-form" onSubmit={onSubmit}>
         <input
-          type="file"
-          accept="image/*"
-          onChange={async (e) => {
-            let file = e.target.files[0];
-            let filename = encodeURIComponent(file.name); // encodeURIComponent 파일명이 국문이거나 언어가 다를때 안전하게 저장하려구
-            let res = await fetch("api/post/image?file=" + filename);
-            res = await res.json();
-
-            //S3 업로드
-            const formData = new FormData();
-            Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
-              formData.append(key, value);
-            });
-            let 업로드결과 = await fetch(res.url, {
-              method: "POST",
-              body: formData,
-            });
-            console.log(업로드결과);
-
-            if (업로드결과.ok) {
-              setSrc(업로드결과.url + "/" + filename);
-            } else {
-              console.log("실패");
-            }
-          }}
+          type="text"
+          value={title}
+          placeholder="글제목"
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <img src={src} />
-        <button type="submit">버튼</button>
+        <textarea
+          type="text"
+          value={content}
+          placeholder="글내용"
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <input type="file" accept="image/*" onChange={(e) => onFileUpload(e)} />
+        {imageURL && (
+          <img
+            src={imageURL}
+            alt="미리보기이미지"
+            style={{ marginBottom: "1rem" }}
+          />
+        )}
+        <button type="submit">글작성</button>
       </form>
     </div>
   );
-  //form에서 submit 버튼을 눌렀을때 서버에 글을 보낸 후 서버는 db에 글을 저장함.
-  // 나는 /api/post/new 로 action이 들어가면서 저기가 서버의 역활을 함
-}
-// !! <input type="file" accept="image/*"/> 이미지 넣기 이건 뭐 당연한거고
-// !! 선택한 이미지를 바로 미리보여주기 식으로 보여주려면
-// !! 1. createObjectURL을 사용하거나 2. input에 올리는 순간 DB에 올려서 바로 보여주게 하기
-// !! 여기서 작업할 방식은 2번으로 하겠다. 2번으로 하면
-// !!! '유저 ⇒ 서버 ⇒ S3'  라서 비효율적이지 않나요?? ❌ 요즘은 Presigned URL 방식을 사용해서 '유저 ⇒ S3' 하는 경우가 더 많아짐
+};
+export default Write;
