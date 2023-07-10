@@ -14,8 +14,7 @@ export async function middleware(request) {
    // NextResponse.rewrite() // 다른페이지로 강제이동 (주소창은 그대로 둠)
 
    // 로그인을 안하고 작성 기능을 사용하려고 할때? 로그인페이지로 보내기
-   const session = await getToken({req : request}) //auth에서 제공하는 기능중 하나 JWT일때만 사용 가는 session일 경우에는 안됨
-   console.log(session)
+   // const session = await getToken({req : request}) //auth에서 제공하는 기능중 하나 JWT일때만 사용 가는 session일 경우에는 안됨
    // if(request.nextUrl.pathname.startsWith('/write')){
    //    if(session == null) {
    //       return NextResponse.redirect('https://next-js-project-six-azure.vercel.app/api/auth/signin')
