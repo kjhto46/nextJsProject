@@ -1,7 +1,18 @@
+:root[color-theme='light'] {
+   --background: #fff;
+   --fontColor: #212529;
+ }
+ 
+ :root[color-theme='dark'] {
+   --background: #212529;
+   --fontColor: #fff;
+ }
+
+
 body { margin:0; padding:0; } 
 
-.navbar { background: white; padding: 20px; } 
-.navbar a { margin-right: 10px; text-decoration: none; color: black; } 
+.navbar { background:var(--background); padding: 20px; } 
+.navbar a { margin-right: 10px; text-decoration: none; color: var(--fontColor); } 
 .logo { font-weight: bold; } 
 
 
@@ -15,5 +26,5 @@ input { box-sizing: border-box; padding: 10px; display: block; margin-bottom: 10
 button { padding: 10px 15px; background: lightgray; border: none; border-radius: 5px; } 
 a { text-decoration:none; } 
 
-.dark-mode .navbar {background:#222;}
-.dark-mode .navbar a {color:#fff;}
+/* .dark-mode .navbar {background:#222;}
+.dark-mode .navbar a {color:#fff;} */

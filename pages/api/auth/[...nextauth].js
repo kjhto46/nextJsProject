@@ -14,7 +14,7 @@ export const authOptions = {
       clientSecret: '0ab67d506f37bedc859d53f9cfe540fc7c5bd1f0',
     }),
   ],
-  secret : 'razritonykjh',
+  secret : process.env.NEXTAUTH_SECRET,
   adapter : MongoDBAdapter(connectDB)
 };
 export default NextAuth(authOptions); 

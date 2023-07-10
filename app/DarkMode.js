@@ -23,12 +23,13 @@ export default function DarkMode() {
            .split(";")[0];
          if(cookieValue == 'light'){
             document.cookie = "mode=dark; max-age=" + 3600 * 24 * 400 + "; path=/";
+            document.documentElement.setAttribute('color-theme', 'dark');
             router.refresh();
          } else if(cookieValue == 'dark') {
             document.cookie = "mode=light; max-age=" + 3600 * 24 * 400 + "; path=/";
+            document.documentElement.setAttribute('color-theme', 'light');
             router.refresh();
          }
-
       }}
     >
       🌙
