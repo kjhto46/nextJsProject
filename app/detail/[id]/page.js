@@ -18,7 +18,7 @@ export default async function Detail(props) {
     // !! notFound()가 되면 page.js 대신 not-found.js를 보여주는 함수이다. 이것도 주변에 없으면 상위 폴더에서 찾아서 한다.
     return notFound();
   }
-
+  console.log(result.img_url)
   // console.log(props)  값이 { params: { id: '어쩌구저쩌구' }, searchParams: {} } 이렇게 나옴 props는 부모 componet 데이터 이외에도 dynamic route에 입력한 값을 출력하는것이다. 저기 id는 아이디라는 dynamic route에 '어쩌구저쩌구'가 됐다~ 이렇게 된것이다.
   return (
     <div>

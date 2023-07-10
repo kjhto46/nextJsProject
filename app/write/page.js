@@ -1,11 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Write = () => {
   const [imageURL, setImageURL] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [src, setSrc] = useState("");
+  useEffect(() => {
+    console.log(src)
+  }, [src])
+
   const onFileUpload = async (e) => {
     e.preventDefault();
     if (!e.target.files) return;
@@ -38,6 +42,7 @@ const Write = () => {
     console.log("res.fields,", res.fields);
     console.log("imageFile,", imageFile);
     setSrc(업로드결과.url + "/" + filename);
+    console.log(src);
     if (업로드결과.ok) {
       console.log(업로드결과.url + "/" + filename);
 
@@ -46,7 +51,7 @@ const Write = () => {
         body: JSON.stringify({
           title: title,
           content: content,
-          img_url: 업로드결과.url + "/" + filename,
+          img_url:src,
         }),
       })
         .then()
