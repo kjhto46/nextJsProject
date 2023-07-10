@@ -1,11 +1,13 @@
 import Link from "next/link";
 import "./globals.css";
-// !! auth) next-auth의 장점이 바로 onClick={() => {signIn();}} 으로 signIn이라는 기본 함수를 지원함. 
+// !! auth) next-auth의 장점이 바로 onClick={() => {signIn();}} 으로 signIn이라는 기본 함수를 지원함.
 // !! 하지만 여기는 use client를 할수 없으니 LoginBtn.js를 만듬
 import LoginBtn from "./LoginBtn";
 import LogOutBtn from "./LogoutBtn";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { cookies } from "next/headers";
+import DarkMode from "./DarkMode";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,26 +15,32 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  let session = await getServerSession(authOptions) 
+  let session = await getServerSession(authOptions);
   // if (session) {
   //   console.log(session)
   // }
-  //getServerSession() import 해오고 
+  //getServerSession() import 해오고
   // authOptions 가져와서 컴포넌트안에서 사용하면 그 자리에 유저 정보가 남습니다.
+  let res = cookies().get("mode");
+  console.log(res);
+
   return (
     <html lang="en">
-      <body>
+      <body className={res != undefined && res.value == "dark" ? "dark-mode" : ""}>
         <div className="navbar">
           <Link href="/" className="logo">
             kjhto46
           </Link>
           <Link href="/list">List</Link>
           <Link href="/write">글작성</Link>
-          {
-            session
-            ? <span>{session.user.name} <LogOutBtn></LogOutBtn></span>
-            :<LoginBtn></LoginBtn>
-          }
+          {session ? (
+            <span>
+              {session.user.name} <LogOutBtn></LogOutBtn>
+            </span>
+          ) : (
+            <LoginBtn></LoginBtn>
+          )}
+          <DarkMode />
           {/* JSX에서는 if문법이 불가능 따라서 조건문을 사용 !! 위와 같이 콧수염괄호를 열고 작성하면됨 */}
         </div>
         {children}

@@ -14,3 +14,6 @@ body { margin:0; padding:0; }
 input { box-sizing: border-box; padding: 10px; display: block; margin-bottom: 10px; } 
 button { padding: 10px 15px; background: lightgray; border: none; border-radius: 5px; } 
 a { text-decoration:none; } 
+
+.dark-mode .navbar {background:#222;}
+.dark-mode .navbar a {color:#fff;}
